@@ -87,8 +87,6 @@ class ViewController: UIViewController {
         
 
         let translation = panGestureRecognizer.translationInView(view)
-
-        
         
         
         switch panGestureRecognizer.state {
@@ -97,10 +95,12 @@ class ViewController: UIViewController {
             let imageView = panGestureRecognizer.view as! UIImageView
             newlyCreatedFace = UIImageView(image: imageView.image)
             
+            let smileyPanGesture = UIPanGestureRecognizer(target: self, action: "onGeneratedSmileyPan:")
+            newlyCreatedFace.addGestureRecognizer(smileyPanGesture)
+            view.userInteractionEnabled = true
             view.addSubview(newlyCreatedFace)
             
             originalSmileyCenter = CGPoint(x: imageView.center.x, y: imageView.center.y + trayView.frame.origin.y)
-
             newlyCreatedFace.center = originalSmileyCenter
             
             
@@ -119,7 +119,39 @@ class ViewController: UIViewController {
         default:
             break
         }
+    }
+    
+    @IBAction func onGeneratedSmileyPan(panGestureRecognizer: UIPanGestureRecognizer) {
+        panGestureRecognizer.view?.tag
+        let superview = panGestureRecognizer.view as!UIImageView
+        var position = panGestureRecognizer.locationInView(view)
+        
+        NSLog("panned")
+        
+        switch panGestureRecognizer.state {
+        case UIGestureRecognizerState.Began:
+            print("Gesture began at: ")
+            
+            break
+            
+        case UIGestureRecognizerState.Changed:
+            print("Gesture changed at:")
+//            newlyCreatedFace.center.y += trayView.frame.origin.y
+            
+            superview.center = CGPoint(x: position.x, y: position.y)
+            
+            
+            break
+            
+            
+        default:
+            break
+        }
+    }
 
+    
+    func scaleSmiley() {
+        
     }
     
     func moveTray(centerPoint: CGPoint) {
